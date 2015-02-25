@@ -1,8 +1,32 @@
 <?php
-	class Wechat{
+	class Wechat{		
+		private $fromUsername;
+		private $toUsername;
+		private $keyword;
+		private $msgType;
 		
 		function __construct(){
 			
+		}
+
+		public function init(){			
+			$this->rpXmlMessage();
+		}
+		
+		//receive and parse xml message
+		private function rpXmlMessage(){			
+			$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+			if (!empty($postStr)){					
+					libxml_disable_entity_loader(true);
+					$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+					$this->fromUsername = $postObj->FromUserName;
+					$this->toUsername = $postObj->ToUserName;
+					$this->keyword = trim($postObj->Content);
+					$this->msgType = $postObj->MsgType;
+			}else {
+				echo "";
+				exit;
+			}
 		}
 		
 		//回复消息 
@@ -42,13 +66,16 @@
 			}
 		}
 		
-		// 验证url
-		public function valid(){
-			$echoStr = $_GET["echostr"];
+		// 验证url，消息来源
+		public function valid(){			
 			if($this->checkSignature()){
-				echo $echoStr;
-				exit;
+				if( isset( $_GET["echostr"])){
+					echo $echoStr;
+					exit;
+				}
+				return true;
 			}
+			return false;
 		}
 		
 		private function checkSignature(){

@@ -5,11 +5,13 @@
 		
 		function __construct(){
 			parent::__construct();
-		}
-		
-		function index(){
+			//验证消息来源
 			$this->wechat->valid();
-			$this->wechat->responseMsg();
+		}
+				
+		
+		function index(){	
+			//
 		}
 	}
 ?>
