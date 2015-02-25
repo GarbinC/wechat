@@ -9,6 +9,7 @@
 		
 		function index(){
 			$this->wechat->valid();
+			$this->wechat->responseMsg();
 		}
 	}
 ?>
