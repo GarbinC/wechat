@@ -8,7 +8,7 @@
 		}
 		
 		function index(){
-			dump('test');
+			$this->wechat->valid();
 		}
 	}
 ?>

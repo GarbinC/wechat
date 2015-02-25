@@ -2,9 +2,10 @@
 	class Wechat{
 		
 		function __construct(){
-			echo TOKEN;exit();
+			
 		}
 		
+		// 验证url
 		public function valid(){
 			$echoStr = $_GET["echostr"];
 			if($this->checkSignature()){
@@ -14,22 +15,18 @@
 		}
 		
 		private function checkSignature(){
-			// you must define TOKEN by yourself
 			if (!defined("TOKEN")) {
-				throw new Exception('TOKEN is not defined!');
+				return false;
 			}
-			
 			$signature = $_GET["signature"];
 			$timestamp = $_GET["timestamp"];
-			$nonce = $_GET["nonce"];
-					
+			$nonce = $_GET["nonce"];	
 			$token = TOKEN;
 			$tmpArr = array($token, $timestamp, $nonce);
 			// use SORT_STRING rule
 			sort($tmpArr, SORT_STRING);
 			$tmpStr = implode( $tmpArr );
-			$tmpStr = sha1( $tmpStr );
-			
+			$tmpStr = sha1( $tmpStr );			
 			if( $tmpStr == $signature ){
 				return true;
 			}else{
