@@ -8,7 +8,7 @@
 		}
 		
 		function index(){
-			echo '123';
+			dump('test');
 		}
 	}
 ?>
